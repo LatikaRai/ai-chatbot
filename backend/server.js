@@ -16,11 +16,6 @@ const io = new Server(httpServer, {
 const chatHistory = []
 
 io.on('connection', (Socket)=>{
-    console.log('user connected')
-
-    Socket.on('disconnect', ()=>{
-        console.log('user disconnected')
-    })
 
     Socket.on('ai-message', async(data)=> {
         console.log('recieved ai msg: ', data)
@@ -30,16 +25,31 @@ io.on('connection', (Socket)=>{
             parts: [{text:data}],
         })
         console.log(chatHistory)
-        // ai response
-        // const response = await generateResponse(data)
-        const response = await generateResponse(chatHistory)
 
-        chatHistory.push({
-            role: 'model',
-            parts: [{text:response}],
-        })
+        try {   
+            const response = await generateResponse(chatHistory)
+    
+            chatHistory.push({
+                role: 'model',
+                parts: [{text:response}],
+            })
+    
+            Socket.emit('ai-message-response', {response})
+        } catch (error) {
+            console.log("error: ",error);
 
-        Socket.emit('ai-message-response', {response})
+            // remove the failed user message from history
+            chatHistory.pop()
+
+            let message = "Sorry, I'm having trouble responding right now. Please try again in a moment."
+
+            if(error.status === 503){
+                message = "The AI service is currently experiencing high demand. Please try again in a few moments."
+            }
+            Socket.emit('ai-message-response', {
+                response: message
+            })
+        }
     })
 
 })

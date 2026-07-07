@@ -1,18 +1,27 @@
-import aiImg from '../assets/images/ai.jpg'
-import ReactMarkdown from 'react-markdown'
+import aiImg from "../assets/images/ai.jpg";
+import ReactMarkdown from "react-markdown";
 
-const AiChat = ({msg}) => {
+const AiChat = ({ msg }) => {
   return (
     <div className="flex items-end justify-start gap-[1.1rem] h-auto max-w-[85%] md:max-w-[70%]">
       <div className="w-[2em] h-[2em] md:w-[3em] md:h-[3em] shrink-0 rounded-full overflow-hidden">
-        <img
-          className="object-cover"
-          src={aiImg}
-          alt=""
-        />
+        <img className="object-cover" src={aiImg} alt="" />
       </div>
-      <div className="px-[0.5em] py-[0.2em] md:px-[1em] md:py-[0.9vh] text-sm md:text-[1.1rem] rounded-[1em] md:rounded-[2.5em] lg:rounded-bl-none md:rounded-bl-none text-gray-800 bg-linear-to-l from-gray-200 to-gray-400">
-        <ReactMarkdown>
+      <div className="px-[0.5em] py-[0.2em] md:px-[1em] md:py-[0.9vh] text-sm md:text-[1.1rem] rounded-[1em] md:rounded-[2.5em] rounded-bl-none lg:rounded-bl-none md:rounded-bl-none text-gray-800 bg-linear-to-l from-gray-200 to-gray-400 overflow-x-auto">
+        <ReactMarkdown
+          components={{
+            pre: ({ children }) => (
+              <pre className="overflow-x-auto rounded-lg bg-gray-900 p-4 text-white">
+                {children}
+              </pre>
+            ),
+            code: ({ children }) => (
+              <code className="rounded bg-gray-800 px-1 py-0.5 text-white">
+                {children}
+              </code>
+            ),
+          }}
+        >
           {msg}
         </ReactMarkdown>
       </div>

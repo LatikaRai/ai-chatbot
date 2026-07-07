@@ -30,9 +30,11 @@ const App = () => {
 
   useEffect(() => {
     let socketInstance = io(import.meta.env.VITE_API_URL);
+
     socketInstance.on("connect", () => {
       console.log("frontend connected:", socketInstance.id);
     });
+
     socketInstance.on("ai-message-response", (data) => {
       setMessages((prev) => [
         ...prev,
@@ -41,7 +43,9 @@ const App = () => {
           parts: data.response,
         },
       ]);
+
     });
+    
     setSocket(socketInstance);
     return () => {
       socketInstance.off("ai-message-response");

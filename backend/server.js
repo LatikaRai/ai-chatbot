@@ -11,7 +11,7 @@ const io = new Server(httpServer, {
     cors: {
         origin: [
             'http://localhost:5173',
-            'https://ai-chatbot-eight-chi-20.vercel.app'
+            'https://ai-chatbot-lq2r2dkdh-zen-stack.vercel.app'
         ],
          methods: ["GET", "POST"]
     }

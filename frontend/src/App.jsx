@@ -29,7 +29,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    let socketInstance = io("http://localhost:3000");
+    let socketInstance = io(import.meta.env.VITE_API_URL);
     socketInstance.on("connect", () => {
       console.log("frontend connected:", socketInstance.id);
     });
